@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: user-service
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+  webflux:
+    throw-exception-if-no-handler-found: true
+
+  r2dbc:
+    url: r2dbc:h2:mem:///userdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      profiles:
+        active:dev
+
+  main:
+    web-application-type: reactive
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: INFO
+    org.springframework.r2dbc: WARN
+    org.springframework.web: INFO
+    com.example.userservice: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
