@@ -1,10 +1,10 @@
 package com.example.userservice.business.connector;
 
-import com.example.userservice.adapter.connector.UserEntity;
-import com.example.userservice.adapter.connector.UserRepository;
-import com.example.userservice.adapter.structure.UserAdapterRequest;
-import com.example.userservice.business.UserServiceImpl;
-import com.example.userservice.business.structure.UserResponse;
+import com.example.userservice.adapter.connector.UsuarioEntity;
+import com.example.userservice.adapter.connector.UsuarioRepository;
+import com.example.userservice.adapter.structure.UsuarioAdapterRequest;
+import com.example.userservice.business.UsuarioServiceImpl;
+import com.example.userservice.business.structure.CrearUsuarioResponse;
 import com.example.userservice.library.exception.CustomException;
 import com.example.userservice.library.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,49 +16,49 @@ import reactor.test.StepVerifier;
 
 import static org.mockito.Mockito.*;
 
-public class UserServiceImplTest {
-    private UserRepository repository;
-    private UserServiceImpl service;
+public class UsuarioServiceImplTest {
+    private UsuarioRepository repository;
+    private UsuarioServiceImpl service;
 
     @BeforeEach
     void setUp() {
-        repository = mock(UserRepository.class);
-        service = new UserServiceImpl(repository);
+        repository = mock(UsuarioRepository.class);
+        service = new UsuarioServiceImpl(repository);
     }
 
     @Test
     void createUser_ok() {
-        UserAdapterRequest req = UserAdapterRequest.builder()
-                .name("Andrea")
-                .email("andrea@example.com")
+        UsuarioAdapterRequest req = UsuarioAdapterRequest.builder()
+                .name("Carlos Mendoza")
+                .email("carlos.mendoza@gmail.com")
                 .build();
 
-        when(repository.save(ArgumentMatchers.any(UserEntity.class)))
+        when(repository.save(ArgumentMatchers.any(UsuarioEntity.class)))
                 .thenAnswer(inv -> {
-                    UserEntity e = inv.getArgument(0);
-                    return Mono.just(UserEntity.builder()
+                    UsuarioEntity e = inv.getArgument(0);
+                    return Mono.just(UsuarioEntity.builder()
                             .id(1L)
                             .name(e.getName())
                             .email(e.getEmail())
                             .build());
                 });
 
-        Mono<UserResponse> result = service.createUser(req);
+        Mono<CrearUsuarioResponse> result = service.createUser(req);
 
         StepVerifier.create(result)
                 .expectNextMatches(r -> r.id().equals(1L)
-                        && r.name().equals("Andrea")
-                        && r.email().equals("andrea@example.com"))
+                        && r.name().equals("Carlos Mendoza")
+                        && r.email().equals("carlos.mendoza@gmail.com"))
                 .verifyComplete();
 
-        verify(repository, times(1)).save(any(UserEntity.class));
+        verify(repository, times(1)).save(any(UsuarioEntity.class));
     }
 
     @Test
     void getAllUsers_ok() {
         when(repository.findAll()).thenReturn(Flux.just(
-                UserEntity.builder().id(1L).name("A").email("a@x.com").build(),
-                UserEntity.builder().id(2L).name("B").email("b@x.com").build()
+                UsuarioEntity.builder().id(1L).name("Ana Pérez").email("ana.perez@gmail.com").build(),
+                UsuarioEntity.builder().id(2L).name("Diego Salas").email("diego.salas@outlook.com").build()
         ));
 
         StepVerifier.create(service.getAllUsers())

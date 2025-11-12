@@ -3,7 +3,7 @@ package com.example.userservice.business.structure;
 import lombok.Builder;
 
 @Builder
-public record UserResponse(
+public record CrearUsuarioResponse(
         Long id,
         String name,
         String email

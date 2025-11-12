@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table("users")
-public class UserEntity {
+public class UsuarioEntity {
     @Id
     private Long id;
     private String name;

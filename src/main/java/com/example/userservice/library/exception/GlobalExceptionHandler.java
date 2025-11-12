@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
     }
 
     public record ProblemDetailResponse(
-            int status,
+            int statusCode,
             String title,
             String detail,
             String instance

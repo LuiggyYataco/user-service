@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record UserRequest(
+public record CrearUsuarioRequest(
         @NotBlank(message = "El nombre es requerido")
         String name,
         @Email(message = "Formato Invalido")
